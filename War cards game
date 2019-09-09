@@ -1,0 +1,214 @@
+
+import random
+
+colours = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+figures = ['Jack', 'Queen', 'King', 'Ace', 'Joker']
+deck = []
+
+for col in colours:
+    for num in range(2, 11):
+        card = (str(num) + " of " + col)
+        deck.append(card)
+
+for fig in figures:
+    for col in colours:
+        if fig == "Joker" and deck.count("Joker") < 2:
+            deck.append(fig)
+        elif fig == "Joker":
+            break
+        else:
+            card = (fig + " of " + col)
+            deck.append(card)
+
+print("\n\t\t\t\t\t\t\t***================= The deck has %2d cards =================***\n\n" % (len(deck)))
+print(*deck, sep=", ")
+input("\nPress ENTER to acknowledge...\n")
+# ----------------------------------------- POWER TO THE DECK -------------------------------------------------------
+random.shuffle(deck)
+i = 1
+thedeck = []
+
+for cards in deck:
+
+    if "Ace" in cards:
+        power = {}
+        power[cards] = 14
+        thedeck.append(power)
+
+    elif "Joker" in cards:
+        power = {}
+        power[cards] = 14
+        thedeck.append(power)
+
+    elif "King" in cards:
+        power = {}
+        power[cards] = 13
+        thedeck.append(power)
+
+    elif "Queen" in cards:
+        power = {}
+        power[cards] = 12
+        thedeck.append(power)
+
+    elif "Jack" in cards:
+        power = {}
+        power[cards] = 11
+        thedeck.append(power)
+
+    elif "10" in cards:
+        power = {}
+        power[cards] = 10
+        thedeck.append(power)
+    elif "9" in cards:
+        power = {}
+        power[cards] = 9
+        thedeck.append(power)
+    elif "8" in cards:
+        power = {}
+        power[cards] = 8
+        thedeck.append(power)
+    elif "7" in cards:
+        power = {}
+        power[cards] = 7
+        thedeck.append(power)
+    elif "6" in cards:
+        power = {}
+        power[cards] = 6
+        thedeck.append(power)
+    elif "5" in cards:
+        power = {}
+        power[cards] = 5
+        thedeck.append(power)
+    elif "4" in cards:
+        power = {}
+        power[cards] = 4
+        thedeck.append(power)
+    elif "3" in cards:
+        power = {}
+        power[cards] = 3
+        thedeck.append(power)
+    elif "2" in cards:
+        power = {}
+        power[cards] = 2
+        thedeck.append(power)
+
+print("\n\t\t\t\t\t\t\t***================= The cards have their power =================***\n\n")
+print("The number cards are as powerful as the number they bare, as for figures:\n")
+p = 10
+for fig in figures:
+    if fig == "Joker":
+        print(fig, "is worth", p)
+    else:
+        p += 1
+        print(fig, "is worth", p)
+
+
+input("\nPress ENTER to understand...")
+
+
+# ----------------------------------------- CARDS -> SHUFFLE -> PLAYERS ----------------------------------------------
+input("\nPress ENTER to shuffle\n")
+print("Shuffling...\n")
+input("Press ENTER to shuffle some more\n")
+print("Shuffling more...\n")
+print("The deck has been succesfully shuffled!\n")
+
+# print(thedeck)
+
+# p1 is what will be compared to establish winner
+p1 = []
+p2 = []
+# p1_deck is just so figures prints nicely
+p1_deck = []
+p2_deck = []
+
+i = 0
+
+for card in thedeck:
+    if i % 2 == 0:
+        p1.append(card)
+        i += 1
+    else:
+        p2.append(card)
+        i += 1
+
+for cards in deck:
+    if i % 2 == 0:
+        p1_deck.append(cards)
+        i += 1
+    else:
+        p2_deck.append(cards)
+        i += 1
+
+print("\n\n\t\t\t\t========= Player 1 cards =========\n\n"),
+print(*p1_deck, sep=", ")
+print("\n\n\t\t\t\t========= Player 2 cards =========\n\n"),
+print(*p2_deck, "\n\n", sep=", ")
+input("Press ENTER to start the WAR")
+print("Let's begin!\n")
+
+#  -------------------------------------------- THE GAME --------------------------------------------------------------
+# counter
+
+p1_wins = 0
+p2_wins = 0
+wars = 0
+
+# as long as any player still has cards
+
+while len(p1) > 0 and len(p2) > 0:
+
+    # power1 is the power of the card in p1 to compare
+    power1 = list(p1[0].values())
+    power2 = list(p2[0].values())
+
+    # fig1 is the first card in p1_deck to be displayed and moved around
+    fig1 = p1_deck[0]
+    fig2 = p2_deck[0]
+    # card1 is the card in dictionary to be moved around
+    card1 = p1[0]
+    card2 = p2[0]
+
+    print("\n%s vs %s" % (fig1, fig2))
+
+    if power1 > power2:  # Player 1 wins
+        print("%s wins! Point for Player 1" % fig1)
+
+        # cards change their owners:
+        p1_deck.append(fig2)  # figure goes to the winner
+        p2_deck.remove(fig2)  # figure is removed from the loser
+        p1.append(card2)  # card goes to the winners dictionary
+        p2.remove(card2)  # card is removed from loser's dictionary
+
+        # used card goes to the end of the list:
+        p1_deck.append(p1_deck.pop(p1_deck.index(p1_deck[0])))
+        p1.append(p1.pop(p1.index(p1[0])))
+
+        p1_wins += 1
+
+    elif power1 < power2:  # Player 2 wins
+        print("%s wins! Point for Player 2" % fig2)
+
+        p2_deck.append(fig1)  # figure goes to the winner
+        p1_deck.remove(fig1)  # figure is removed from the loser
+        p2.append(card1)  # card goes to the winners dictionary
+        p1.remove(card1)  # card is removed from loser's dictionary
+
+        # used card goes to the end of the list:
+        p2_deck.append(p2_deck.pop(p2_deck.index(p2_deck[0])))
+        p2.append(p2.pop(p2.index(p2[0])))
+
+
+        p2_wins += 1
+
+    else:
+        print("peace")
+        p2_deck.remove(fig2)  # figure is removed from previous owner
+        p1_deck.remove(fig1)  # figure is removed from previous owner
+        p1.remove(card1)
+        p2.remove(card2)
+
+# print("Player 1 cards:", p1_deck, "\n\nPlayer 2 cards:", p2_deck)
+# print("Player 1 cards:", p1, "\n\nPlayer 2 cards:", p2)
+print("\n ***** SCORES *****")
+print("\nPlayer 1 won %d times, Player 2 won %d times" % (p1_wins, p2_wins))
