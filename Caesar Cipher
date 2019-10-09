@@ -51,8 +51,7 @@ while True:
     elif mode.lower() == "encryption" or mode.lower() == "1":
 
         print("Please enter desired text to be encrypted: ")
-        text = input()
-        szyfr = list(text)
+        szyfr = input()
 
         for letter in szyfr:
             if letter in alfabet:
